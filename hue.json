@@ -1,0 +1,27 @@
+{
+	"name": "Hue/Saturation Layer",
+	"description": "Adds a Hue/Saturation adjustment layer with specific values",
+	"actions": [
+		{
+			"name": "Add to Document",
+			"script": "addHueSaturationLayer"
+		}
+	],
+	"scripts": {
+		"addHueSaturationLayer": {
+			"script": [
+				"app.activeDocument.suspendHistory('Add Hue/Saturation Layer', function () {",
+				"    var layer = app.activeDocument.artLayers.add();",
+				"    layer.kind = LayerKind.HUESATURATION;",
+				"    var desc = new ActionDescriptor();",
+				"    var hueSat = new ActionDescriptor();",
+				"    hueSat.putInteger(app.stringIDToTypeID('hue'), 42);",
+				"    hueSat.putInteger(app.stringIDToTypeID('saturation'), 82);",
+				"    hueSat.putInteger(app.stringIDToTypeID('lightness'), 4);",
+				"    desc.putObject(app.stringIDToTypeID('hueSaturation'), app.stringIDToTypeID('hueSaturation'), hueSat);",
+				"    app.executeAction(app.stringIDToTypeID('hueSaturationEvent'), desc, DialogModes.NO);",
+				"});"
+			]
+		}
+	}
+}
