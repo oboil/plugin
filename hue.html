@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Photopea Plugin</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <h1>Photopea Plugin</h1>
+    <p>Click the button below to add a Hue/Saturation layer to your document.</p>
+    <button id="addLayerBtn">Add to Document</button>
+
+    <script>
+        // Photopea API communication
+        document.getElementById("addLayerBtn").addEventListener("click", async () => {
+            const message = [
+                { action: "runScript", script: `
+                    // Check if a document is open
+                    if (app.documents.length > 0) {
+                        // Add a new Hue/Saturation adjustment layer
+                        var layer = app.activeDocument.artLayers.add();
+                        layer.kind = LayerKind.HUESATURATION;
+                        var hs = layer.hueSaturation;
+                        hs.hue = 42; // Set Hue to 42
+                        hs.saturation = 82; // Set Saturation to 82
+                        hs.lightness = 4; // Set Lightness to 4
+                        app.refresh(); // Refresh Photopea to apply changes
+                    } else {
+                        alert("No document is open!");
+                    }
+                `}
+            ];
+            
+            // Send the message to Photopea
+            window.parent.postMessage(message, "*");
+        });
+    </script>
+</body>
+</html>
